@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="How a reusable set of prompt patterns developed naturally out of real content and documentation work.">
+<title>Personal Prompt Framework — Fadhullah Zuhair Leman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F2420; --ink-panel:#173630;
+    --cream:#F3EEE2; --cream-line:#D9D0B8;
+    --amber:#C9903E; --amber-deep:#A6742E; --bronze:#B08968; --teal:#5D8F87;
+    --line:#33534A; --text-dim:#B7C4BC;
+    --serif:'Fraunces', serif; --sans:'IBM Plex Sans', sans-serif; --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--ink); color:var(--cream); font-family:var(--sans); line-height:1.65; }
+  ::selection{ background:var(--amber); color:var(--ink); }
+  a{ color:inherit; }
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;} }
+  .wrap{ max-width:840px; margin:0 auto; padding:0 32px; }
+  @media (max-width:480px){ .wrap{ padding:0 20px; } }
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+  .lang-bm{ display:none; }
+  html.show-bm .lang-en{ display:none; }
+  html.show-bm .lang-bm{ display:block; }
+  html.show-bm .lang-bm.inline{ display:inline; }
+
+  nav{ position:sticky; top:0; z-index:100; background:rgba(15,36,32,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--line); }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .back-link{ font-family:var(--mono); font-size:12px; letter-spacing:0.05em; text-decoration:none; color:var(--text-dim); display:flex; align-items:center; gap:8px; transition:color 0.2s; }
+  .back-link:hover{ color:var(--amber); }
+  #langToggle{ font-family:var(--mono); font-size:11px; letter-spacing:0.06em; background:transparent; border:1px solid var(--line); color:var(--text-dim); padding:6px 11px; cursor:pointer; transition:border-color 0.2s, color 0.2s; }
+  #langToggle:hover{ border-color:var(--amber); color:var(--amber); }
+
+  header.p-hero{ padding:64px 0 40px; border-bottom:1px solid var(--line); }
+  .status-pill{ font-family:var(--mono); font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; padding:4px 9px; border:1px solid var(--line); display:inline-block; }
+  .status-pill.live{ color:var(--teal); border-color:var(--teal); }
+  .status-pill.progress{ color:var(--amber); border-color:var(--amber); }
+  .status-pill.concept{ color:var(--bronze); border-color:var(--bronze); }
+  .p-cat{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin:18px 0 14px; }
+  .p-hero h1{ font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,4.5vw,2.7rem); line-height:1.15; max-width:20ch; margin-bottom:16px; }
+  .p-hero .p-overview{ color:var(--text-dim); font-size:1.02rem; max-width:60ch; }
+  .p-top-row{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+
+  main{ padding:52px 0 20px; }
+  .p-block{ padding:28px 0; border-bottom:1px solid var(--line); }
+  .p-block:last-child{ border-bottom:none; }
+  .p-block .pb-label{ font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--amber); display:block; margin-bottom:10px; }
+  .p-block p{ color:var(--text-dim); font-size:0.98rem; max-width:66ch; }
+  .p-block p + p{ margin-top:10px; }
+  .p-block ul{ margin-top:8px; padding-left:18px; color:var(--text-dim); font-size:0.95rem; }
+  .p-block li{ margin-bottom:6px; }
+
+  .p-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+  .p-tags span{ font-family:var(--mono); font-size:10.5px; color:var(--teal); border:1px solid var(--line); padding:4px 9px; }
+
+  footer.p-foot{ padding:40px 0 56px; border-top:1px solid var(--line); margin-top:20px; }
+  footer.p-foot .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .p-foot-name{ font-family:var(--serif); font-size:1.05rem; }
+  .p-foot-meta{ font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+  .p-foot-meta a{ color:var(--amber); text-decoration:none; border-bottom:1px dashed var(--amber-deep); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="../portfolio.html#solutions" class="back-link">&#8592; <span class="lang-en">Back to Portfolio</span><span class="lang-bm">Kembali ke Portfolio</span></a>
+    <button id="langToggle" aria-label="Switch language">BM</button>
+  </div>
+</nav>
+
+<header class="p-hero">
+  <div class="wrap">
+    <div class="p-top-row">
+      <span class="status-pill concept"><span class="lang-en">Personal Practice</span><span class="lang-bm">Amalan Peribadi</span></span>
+    </div>
+    <div class="p-cat"><span class="lang-en">Prompt Engineering · Not a Deployed Product</span><span class="lang-bm">Prompt Engineering · Bukan Produk Terbina</span></div>
+    <h1>Personal Prompt Framework</h1>
+    <p class="p-overview"><span class="lang-en">A working set of reusable prompt patterns for scripts, captions, and documentation — a personal system that speeds up my own drafting, not a packaged tool sold or handed to a team.</span><span class="lang-bm">Set corak prompt yang boleh diguna semula untuk skrip, caption, dan dokumentasi — sistem peribadi yang mempercepatkan draf sendiri, bukan alat berpakej yang dijual atau diserahkan kepada pasukan.</span></p>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Background</span><span class="lang-bm">Latar Belakang</span></span>
+      <p><span class="lang-en">This wasn't planned as a formal system from day one. It grew out of noticing the same corrections kept happening across scripts, captions, and report chapters, and turning those corrections into upfront constraints instead.</span><span class="lang-bm">Ini bukan dirancang sebagai sistem formal sejak awal. Ia terhasil daripada perhatian bahawa pembetulan yang sama sentiasa berlaku merentasi skrip, caption, dan bab laporan, lalu menukar pembetulan tersebut menjadi batasan awal sebaliknya.</span></p>
+    </div>
+
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Pattern</span><span class="lang-bm">Corak</span></span>
+      <p><span class="lang-en">Topic → research → prompt design → AI draft → refinement → doctor-friendly version. The same shape, whether the output is a TikTok script or a report chapter.</span><span class="lang-bm">Topik → penyelidikan → reka bentuk prompt → draf AI → penambahbaikan → versi mesra doktor. Bentuk yang sama, sama ada output itu skrip TikTok atau bab laporan.</span></p>
+    </div>
+
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Covers</span><span class="lang-bm">Merangkumi</span></span>
+      <p><span class="lang-en">TikTok scripts, Instagram captions, report chapters, and logbook entries — real before/after examples are in the Prompt Engineering Gallery on the main portfolio page.</span><span class="lang-bm">Skrip TikTok, caption Instagram, bab laporan, dan entri logbook — contoh sebelum/selepas sebenar terdapat dalam Galeri Prompt Engineering di halaman portfolio utama.</span></p>
+    </div>
+
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Why It Stays Personal</span><span class="lang-bm">Sebab Ia Kekal Peribadi</span></span>
+      <p><span class="lang-en">It's honestly a working habit more than a product — a set of constraints I've learned to add upfront (tone, audience, format, length) rather than a tool with a name and a version number.</span><span class="lang-bm">Ia sejujurnya lebih kepada tabiat kerja berbanding produk — satu set batasan yang saya belajar tambah di awal (nada, khalayak, format, panjang) berbanding alat yang mempunyai nama dan nombor versi.</span></p>
+    </div>
+
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Reflection &amp; Future Improvements</span><span class="lang-bm">Refleksi &amp; Penambahbaikan Masa Depan</span></span>
+      <p><span class="lang-en">A reasonable next step would be writing this down properly as a short style guide, so it could actually be handed to someone else instead of living only in habit.</span><span class="lang-bm">Langkah seterusnya yang munasabah ialah menulisnya dengan kemas sebagai panduan gaya ringkas, supaya ia benar-benar boleh diserahkan kepada orang lain berbanding hanya wujud dalam tabiat.</span></p>
+    </div>
+
+    <div class="p-block">
+      <span class="pb-label"><span class="lang-en">Tools &amp; Technology</span><span class="lang-bm">Alatan &amp; Teknologi</span></span>
+      <div class="p-tags"><span>ChatGPT</span><span>Claude</span><span>NotebookLM</span></div>
+    </div>
+  </div>
+</main>
+
+<footer class="p-foot">
+  <div class="wrap">
+    <div class="p-foot-name">Fadhullah Zuhair Bin Leman</div>
+    <div class="p-foot-meta"><a href="../portfolio.html">&#8592; <span class="lang-en">Full portfolio</span><span class="lang-bm">Portfolio penuh</span></a></div>
+  </div>
+</footer>
+
+<script>
+  const htmlRoot = document.getElementById('htmlRoot');
+  const langBtn = document.getElementById('langToggle');
+  langBtn.addEventListener('click', () => {
+    const toBM = !htmlRoot.classList.contains('show-bm');
+    htmlRoot.classList.toggle('show-bm', toBM);
+    htmlRoot.lang = toBM ? 'ms' : 'en';
+    langBtn.textContent = toBM ? 'EN' : 'BM';
+  });
+</script>
+
+</body>
+</html>
